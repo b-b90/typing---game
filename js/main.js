@@ -3,6 +3,8 @@ let hit = 0;
 let miss = 0;
 let left = 26;
 let broj = 0;
+let pokusaj = false;
+let timeout;
 
 let nizNumbers = [];
 
@@ -38,11 +40,19 @@ function startPlay() {
         return;
     }
 
+    document.getElementById('easy').disabled = true;
+    document.getElementById('medium').disabled = true;
+    document.getElementById('hard').disabled = true;
+
     document.getElementById('inputLetter').addEventListener('keypress', pritisnutoDugme);
 
     function pritisnutoDugme (e) {
 
-        console.log(e)
+        if(pokusaj) return;
+
+        pokusaj = true;
+
+        clearTimeout(timeout);
 
         if(nizLetters[broj] == e.key) {
 
@@ -74,6 +84,8 @@ function startPlay() {
 
     function match() {
 
+        pokusaj = false;
+
         document.getElementById('inputLetter').focus();
         document.getElementById('inputLetter').addEventListener('focus', function() {
             document.getElementById('inputLetter').value = "";
@@ -84,14 +96,34 @@ function startPlay() {
         if(!nizNumbers.length) {
 
             document.getElementById('target').innerText = 'Game over!';
+            clearInterval(interval);
         } else {
 
             document.getElementById('target').innerText = nizNumbers[broj];
         }
+
+        function didntTry() {
+
+            if(left > 0) {
+
+                miss++;
+                left--;
+
+                document.getElementById('left').innerText = left;
+                document.getElementById('miss').innerText = miss;
+
+                document.getElementById(`${nizLetters[broj]}`).classList.add('red');
+
+                nizNumbers.splice(broj, 1);
+                nizLetters.splice(broj, 1);
+            }
+        }
+
+        timeout = setTimeout(didntTry, speed - 100)
     }
 
     match();
-    setInterval(match, speed);
+    let interval = setInterval(match, speed);
 }
 
 document.getElementById('start').addEventListener('click', startPlay);
