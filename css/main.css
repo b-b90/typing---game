@@ -82,3 +82,11 @@ aside h4:nth-child(3) {
 aside h4:nth-child(4) {
     color: #8e85f8;
 }
+
+.red {
+    color: red !important;
+}
+
+.green {
+    color: green !important;
+}
