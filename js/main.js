@@ -147,7 +147,7 @@ function startPlay() {
         timeout = setTimeout(didntTry, speed - 100)
     }
 
-    match();
+    nextTry();
     let interval = setInterval(nextTry, speed);
 }
 
