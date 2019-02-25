@@ -34,13 +34,17 @@ section {
     font-size: 55px;
 }
 
-#start {
+#start, #stop {
     padding: 5px 12px;
     border: 1px solid #8e85f8;
     color: #8e85f8;
     border-radius: 5px;
     background: white;
     font-weight: 600;
+}
+
+#stop {
+    display: none;
 }
 
 #inputLetter {

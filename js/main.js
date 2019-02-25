@@ -1,29 +1,53 @@
 
-let hit = 0;
-let miss = 0;
-let left = 26;
-let broj = 0;
-let pokusaj = false;
-let timeout;
-
-let nizNumbers = [];
-
-for(let i = 1; i <= 26; i++) {
-    nizNumbers.push(i);
-}
-
-function genCharArray(charA, charZ) {
-    var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
-    for (; i <= j; ++i) {
-        a.push(String.fromCharCode(i));
-    }
-    return a;
-}
-
-let nizLetters = genCharArray('a', 'z');
-
-
 function startPlay() {
+
+    let hit = 0;
+    let miss = 0;
+    let left = 26;
+    let broj = 0;
+    let pokusaj = false;
+    let timeout;
+
+    let nizNumbers = [];
+
+    for(let i = 1; i <= 26; i++) {
+        nizNumbers.push(i);
+    }
+
+    function genCharArray(charA, charZ) {
+        var a = [], i = charA.charCodeAt(0), j = charZ.charCodeAt(0);
+        for (; i <= j; ++i) {
+            a.push(String.fromCharCode(i));
+        }
+        return a;
+    }
+
+    let nizLetters = genCharArray('a', 'z');
+
+    document.getElementById('start').style.display = "none";
+    document.getElementById('stop').style.display = "block";
+
+    let slova = document.querySelector('.letters').querySelectorAll('h2');
+    
+    for(let i = 0; i < slova.length; i++) {
+        slova[i].classList.remove('red');
+        slova[i].classList.remove('green');
+    }
+
+    function stopGame() {
+
+        document.getElementById('start').style.display = "block";
+        document.getElementById('stop').style.display = "none";
+
+        document.getElementById('easy').disabled = false;
+        document.getElementById('medium').disabled = false;
+        document.getElementById('hard').disabled = false;
+
+        clearInterval(interval);
+        clearTimeout(timeout);
+    }
+
+    document.getElementById('stop').addEventListener('click', stopGame);
 
     let speed = 0;
 
@@ -44,10 +68,11 @@ function startPlay() {
     document.getElementById('medium').disabled = true;
     document.getElementById('hard').disabled = true;
 
-    document.getElementById('inputLetter').addEventListener('keypress', pritisnutoDugme);
+    document.getElementById('inputLetter').addEventListener('keypress', odgovor);
 
-    function pritisnutoDugme (e) {
+    function odgovor (e) {
 
+        // da bi bio dozvoljen samo jedan pokusaj
         if(pokusaj) return;
 
         pokusaj = true;
@@ -82,7 +107,7 @@ function startPlay() {
         }
     }
 
-    function match() {
+    function nextTry() {
 
         pokusaj = false;
 
@@ -123,7 +148,7 @@ function startPlay() {
     }
 
     match();
-    let interval = setInterval(match, speed);
+    let interval = setInterval(nextTry, speed);
 }
 
 document.getElementById('start').addEventListener('click', startPlay);
