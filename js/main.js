@@ -121,7 +121,16 @@ function startPlay() {
         if(!nizNumbers.length) {
 
             document.getElementById('target').innerText = 'Game over!';
+            document.getElementById('start').style.display = "block";
+            document.getElementById('stop').style.display = "none";
+
+            document.getElementById('easy').disabled = false;
+            document.getElementById('medium').disabled = false;
+            document.getElementById('hard').disabled = false;
+
             clearInterval(interval);
+            clearTimeout(timeout);
+            
         } else {
 
             document.getElementById('target').innerText = nizNumbers[broj];
